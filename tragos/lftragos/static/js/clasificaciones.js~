@@ -1,0 +1,294 @@
+(function(angular) {
+  'use strict';
+angular.module('clasificaciones', ['dataService','dialog'])
+  
+  .component('clasificacionesTab', {
+    templateUrl: 'static/templates/clasificacionesTab.html',
+    require: {
+       appAdmin: '^appAdmin'
+    },
+    bindings: { $router: '<' },
+    controller: ClasificacionesTabComponent
+    
+  })
+
+  .component('clasjornadaList', {
+    templateUrl:'static/templates/clasjornadaList.html',
+    require: {
+       appAdmin: '^appAdmin',
+       clasificacionesTab: '^clasificacionesTab'
+    },
+    bindings: { $router: '<' },
+    controller: ClasjornadaListComponent,
+    $canActivate: function($nextInstruction, $prevInstruction) {
+      console.log('$canActivate', arguments);
+    }
+  })
+
+  .component('clastotalList', {
+    templateUrl:'static/templates/clastotalList.html',
+    require: {
+       appAdmin: '^appAdmin',
+       clasificacionesTab: '^clasificacionesTab'
+    },
+    bindings: { $router: '<' },
+    controller: ClasjornadaListComponent,
+    $canActivate: function($nextInstruction, $prevInstruction) {
+      console.log('$canActivate', arguments);
+    }
+  })
+
+  .component('clasmesList', {
+    templateUrl:'static/templates/clasmesList.html',
+    require: {
+       appAdmin: '^appAdmin',
+       clasificacionesTab: '^clasificacionesTab'
+    },
+    bindings: { $router: '<' },
+    controller: ClasmesListComponent,
+    $canActivate: function($nextInstruction, $prevInstruction) {
+      console.log('$canActivate', arguments);
+    }
+  })
+
+  .component('jornadasclasSelect', {
+    templateUrl:'static/templates/jornadasclasSelect.html',
+    require: {
+       appAdmin: '^appAdmin',
+       clasificacionesTab: '^clasificacionesTab'
+    },
+    bindings: { $router: '<' },
+    controller: JornadasclasSelectComponent,
+    $canActivate: function($nextInstruction, $prevInstruction) {
+      console.log('$canActivate', arguments);
+    }
+  })
+
+  .component('jornadasmesinicialSelect', {
+    templateUrl:'static/templates/jornadasclasmes1select.html',
+    require: {
+       appAdmin: '^appAdmin',
+       clasificacionesTab: '^clasificacionesTab'
+    },
+    bindings: { $router: '<' },
+    controller: JornadasmesinicialSelectComponent,
+    $canActivate: function($nextInstruction, $prevInstruction) {
+      console.log('$canActivate', arguments);
+    }
+  })
+
+  .component('jornadasmesfinalSelect', {
+    templateUrl:'static/templates/jornadasclasmes2select.html',
+    require: {
+       appAdmin: '^appAdmin',
+       clasificacionesTab: '^clasificacionesTab'
+    },
+    bindings: { $router: '<' },
+    controller: JornadasmesfinalSelectComponent,
+    $canActivate: function($nextInstruction, $prevInstruction) {
+      console.log('$canActivate', arguments);
+    }
+  })
+
+function ClasificacionesTabComponent(equiposService,$window,$scope) {
+  var clasJornada = []; 
+  var clasTotal = []; 
+  var clasMes = [];
+  var jornadaMesInicial = null;
+  var jornadaMesFinal = null;
+  var jornadaActual = null;
+  var ctrl = this;
+
+  this.$routerOnActivate = function(next) {
+    console.log('$routerOnActivate', this, arguments);
+  };
+
+  $scope.$watch('$ctrl.appAdmin.lista_jornadas',function(newVal,oldVal){
+    if (ctrl.appAdmin.lista_jornadas[0]){
+       ctrl.jornadaActual = ctrl.appAdmin.lista_jornadas[0].numero;
+       
+       var derecho = ctrl.appAdmin.lista_jornadas.slice();
+       derecho.reverse()  
+       ctrl.jornadaMesInicial = derecho[derecho.findIndex(checkMes)].numero;
+       
+       ctrl.jornadaMesFinal = (ctrl.appAdmin.lista_jornadas)[(ctrl.appAdmin.lista_jornadas).findIndex(checkMes)].numero;
+       
+    }
+  });
+
+  $scope.$watch('$ctrl.jornadaActual',function(newVal,oldVal){
+    if (ctrl.jornadaActual){
+       ctrl.getClasJornada();
+       ctrl.getClasTotal();
+       ctrl.getClasMes();
+    }
+  });
+
+  $scope.$watch('$ctrl.jornadaMesInicial',function(newVal,oldVal){
+    console.log("wathc "+ctrl.jornadaMesInicial)
+    console.log("wathc "+ctrl.jornadaMesFinal)
+
+    if (ctrl.jornadaMesInicial && ctrl.jornadaMesFinal){
+      ctrl.getClasMes();
+    }
+  });
+
+  $scope.$watch('$ctrl.jornadaMesFinal',function(newVal,oldVal){
+    console.log("wathc "+ctrl.jornadaMesInicial)
+    console.log("wathc "+ctrl.jornadaMesFinal)
+
+    if (ctrl.jornadaMesInicial && ctrl.jornadaMesFinal){
+      ctrl.getClasMes();
+    }
+  });
+
+  this.imprimirClasificaciones = function(){
+    console.log("Estoy en imprimir clasificaciones")
+    var url = "http://" + $window.location.host + "/printClasificaciones/"+ctrl.jornadaActual;
+    $window.location.href = url;
+   
+  }
+
+  this.getClasJornada = function(){
+    equiposService.getClasificacionJornada(ctrl.jornadaActual).then(function(clasificacion) {
+      ctrl.clasJornada = clasificacion.data;
+      if (!ctrl.clasJornada){
+	ctrl.clasJornada=[];	
+      }
+      
+        
+    });
+  }
+
+  this.getClasTotal = function(){
+    equiposService.getClasificacionTotal(ctrl.jornadaActual).then(function(clasificacion) {
+      ctrl.clasTotal = clasificacion.data;
+      if (!ctrl.clasTotal){
+	ctrl.clasTotal=[];	
+      }
+      console.log("clasTotal "+ctrl.clasTotal[0].usuario)
+        
+    });
+  }
+
+  this.getClasMes = function(){
+    equiposService.getClasificacionMes(ctrl.jornadaMesInicial,ctrl.jornadaMesFinal).then(function(clasificacion) {
+      ctrl.clasMes = clasificacion.data;
+      if (!ctrl.clasMes){
+	ctrl.clasMes=[];	
+      }
+      //console.log("clasmes "+ctrl.clasMes[0].usuario)
+        
+    });
+  }
+ 
+}
+
+function ClasjornadaListComponent() {
+  var ctrl = this;
+
+  this.$routerOnActivate = function(next) {
+    console.log('$routerOnActivate', this, arguments);
+  };
+
+  this.$onInit = function () {
+    if (ctrl.clasificacionesTab.jornadaActual){ 
+       ctrl.clasificacionesTab.getClasJornada();
+    }
+  };
+
+}
+
+function ClastotalListComponent() {
+  var ctrl = this;
+
+  this.$routerOnActivate = function(next) {
+    console.log('$routerOnActivate', this, arguments);
+  };
+
+  this.$onInit = function () {
+    if (ctrl.clasificacionesTab.jornadaActual){ 
+       ctrl.clasificacionesTab.getClasTotal();
+    }
+  };
+
+}
+
+function ClasmesListComponent() {
+  var ctrl = this;
+
+  this.$routerOnActivate = function(next) {
+    console.log('$routerOnActivate', this, arguments);
+  };
+
+  this.$onInit = function () {
+    if (ctrl.clasificacionesTab.jornadaMesInicial && ctrl.clasificacionesTab.jornadaMesFinal){ 
+       ctrl.clasificacionesTab.getClasMes();
+    }
+  };
+
+}
+
+function JornadasclasSelectComponent() {
+  var ctrl = this;
+
+  this.$routerOnActivate = function(next) {
+    console.log('$routerOnActivate', this, arguments);
+  };
+
+  this.$onInit = function () {
+    this.clasificacionesTab.jornadaActual = null;
+    if (this.appAdmin.lista_jornadas[0]){
+       this.clasificacionesTab.jornadaActual = this.appAdmin.lista_jornadas[0].numero;
+    }
+    console.log("jorans actual "+this.clasificacionesTab.jornadaActual )
+  };
+
+}
+
+function JornadasmesinicialSelectComponent() {
+  var ctrl = this;
+
+  this.$routerOnActivate = function(next) {
+    console.log('$routerOnActivate', this, arguments);
+  };
+
+  this.$onInit = function () {
+    this.clasificacionesTab.jornadaMesInicial = null;
+    if (this.appAdmin.lista_jornadas[0]){
+       var derecho = ctrl.appAdmin.lista_jornadas.slice();
+       derecho.reverse()    
+       this.clasificacionesTab.jornadaMesInicial = derecho[derecho.findIndex(checkMes)].numero;
+    }
+    console.log("jorandas mes inicial "+this.clasificacionesTab.jornadaMesInicial )
+  };
+
+}
+
+function JornadasmesfinalSelectComponent() {
+  var ctrl = this;
+
+  this.$routerOnActivate = function(next) {
+    console.log('$routerOnActivate', this, arguments);
+  };
+
+  this.$onInit = function () {
+    this.clasificacionesTab.jornadaMesFinal = null;
+    if (this.appAdmin.lista_jornadas[0]){
+       this.clasificacionesTab.jornadaMesFinal = (this.appAdmin.lista_jornadas)[(this.appAdmin.lista_jornadas).findIndex(checkMes)].numero;
+    }
+    console.log("jorandas mes final "+this.clasificacionesTab.jornadaMesFinal )
+  };
+
+}
+
+function checkMes(jornada) {
+    console.log("fecha de hoy " +new Date());
+    console.log("jornada "+jornada.numero); 
+    console.log((new Date(jornada.limite)).getMonth());
+    console.log((new Date()).getMonth());
+    return (new Date(jornada.limite)).getMonth() == (new Date()).getMonth();
+  }
+
+})(window.angular);
+

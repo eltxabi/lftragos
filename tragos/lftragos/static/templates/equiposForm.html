@@ -1,0 +1,24 @@
+<div>
+<button data-toggle="collapse" data-target="#equipos_form" class="btn btn-info">Crear equipo</button>
+<button class="btn btn-info" ng-click="$ctrl.imprimirInforme()">Imprimir Informe</button>
+
+<form id="equipos_form" class="collapse">
+	<div class="form-group">
+    		<label for="usuarioEquipo">Nombre</label>
+		<input type="text" class="form-control" name="username" id="usuarioEquipo" ng-model="$ctrl.username"></input>
+        </div>
+        <div class="form-group">
+    		<label for="passwordEquipo">Contraseña</label>
+		<input type="password"  class="form-control" name="password" ng-model="$ctrl.password" id=passwordEquipo"></input>
+        </div>
+        <div class="form-group">
+    		<label for="dineroEquipo">Dinero</label>
+		<input type="text" class="form-control" name="dinero" ng-model="$ctrl.dinero" id=dineroEquipo"></input>
+        </div>
+	<div class="form-group">
+    		<label for="puntosEquipo">Puntos</label>
+		<input type="text" class="form-control" name="puntos_iniciales" ng-model="$ctrl.puntos_iniciales" id="puntosEquipo"></input>
+        </div>
+	<button class="btn btn-primary" ng-click="$ctrl.create()">Crear</button>
+</form>
+</div>

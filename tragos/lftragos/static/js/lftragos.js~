@@ -1,0 +1,235 @@
+var lista_equipos , lista_jornadas, lista_alineaciones, lista_futbolistas;
+
+$( document ).ready(function() {
+	init();
+});
+
+function asignar_eventos_navegacion(){
+	var opciones = document.querySelectorAll("#menu li");
+	for(var i=0; i<opciones.length; i++) {
+		opciones[i].onclick=mostrarTexto;
+	}
+}
+
+function mostrarTexto(event){
+	var paginas = document.getElementsByClassName("pagina");
+		for(var i=0; i<paginas.length; i++) {
+			paginas[i].style.display = "none";
+		}
+	
+	var pagina = document.getElementById(event.target.getAttribute("title"));
+	pagina.style.display="block";
+
+}
+
+
+function init(){
+	asignar_eventos_navegacion();
+	load_lista_equipos();
+	
+	/*********************************************************************
+		EVENTO FORMULARIO CREAR NUEVO EQUIPO
+	*********************************************************************/
+        var frmce = $('#crear_equipo form');
+	frmce.submit(function() {
+	    $.ajax({ 
+                data: frmce.serialize(), // get the form data
+                type: frmce.attr('method'), // GET or POST
+                url: frmce .attr('action'), // the file to call
+                success: function(response) { 
+                        addMessage('Equipo '+response.username+' creado con exito')
+			load_lista_equipos();
+		},
+		error: function(response) {
+                    for (var key in response.responseJSON){
+				addMessage(key+':'+response.responseJSON[key])
+  			}
+            	}
+            });
+            return false;
+        });
+	
+	/*********************************************************************
+		EVENTO FORMULARIO CREAR NUEVA JORNADA
+	*********************************************************************/
+	var frmcj = $('#crear_jornada form');
+	frmcj.submit(function() {
+	    $.ajax({ 
+                data: frmcj.serialize(), // get the form data
+                type: frmcj.attr('method'), // GET or POST
+                url: frmcj.attr('action'), // the file to call
+                success: function(response) { 
+                        addMessage('Jornada '+response.numero+' creada con exito');
+			load_lista_jornadas();
+		},
+		error: function(response) {
+                    for (var key in response.responseJSON){
+				addMessage(key+':'+response.responseJSON[key])
+  			}
+            	}
+            });
+            return false;
+        });
+	
+}
+
+function load_lista_equipos(){
+	$.ajax({url: "equipos", success: function(result){
+		lista_equipos = result;
+		crear_pagina_equipos();
+		load_lista_jornadas()
+	}});
+}
+
+function load_lista_jornadas(){
+	$.ajax({url: "jornadas", success: function(result){
+		lista_jornadas = result;
+		crear_pagina_alineaciones();
+	}});
+}
+
+function load_lista_alineaciones(numero){
+	$.ajax({url: "alineaciones/"+numero, success: function(result){
+		lista_alineaciones = result;
+		crear_listas_alineaciones();
+	}});
+}
+
+function load_lista_futbolistas(){
+	$.ajax({url: "futbolistas", success: function(result){
+		lista_futbolistas = result;
+		crear_lista_futbolistas();
+	}});
+}
+
+
+
+function crear_pagina_equipos(){
+	if (lista_equipos.length==0){
+		$("#lista_equipos").html("<p>No hay equipos</p>");
+	}else{
+		$("#lista_equipos").html("");
+		$("#lista_equipos").append("<table id='table_equipos' border='2'>");
+		$("#table_equipos").append("<tr><td class='hidden'>Id</td><td>Equipo</td><td>Dinero</td></tr>");
+		jQuery.each( lista_equipos, function( i, val ) {
+	 		$("#table_equipos").append("<tr><td class='hidden'>"+val.id+"</td><td>"+val.usuario.username+"</td><td>"+val.dinero+"</td></tr>");	
+		});
+		$("#lista_equipos").append("</table>");
+	}
+}
+
+function crear_pagina_alineaciones(){
+	if (lista_equipos.length==0){
+		$("#alineaciones_contenido").html("<p>No hay equipos</p>");
+	}else{
+		if (lista_jornadas.length==0){
+			$("#alineaciones_contenido").html("<p>No hay jornadas</p>");
+		}else{
+			$("#alineaciones_contenido").html("");
+			//Desplegable jornadas
+			$("#alineaciones_contenido").append("<div id='depl_jornadas'><h3>Jornada</h3><select></select></div>");
+				jQuery.each( lista_jornadas, function( i, val ) {
+					if (i==0){
+						$("#depl_jornadas select").append("<option value="+val.numero+" selected>"+val.numero+"</option>");
+					}else{
+	 					$("#depl_jornadas select").append("<option value="+val.numero+">"+val.numero+"</option>");	
+					}
+				});	
+						
+			//Desplegable equipos
+			$("#alineaciones_contenido").append("<div id='depl_equipos'><h3>Equipo</h3><select></select></div>");
+				jQuery.each( lista_equipos, function( i, val ) {
+					if (i==0){	
+	 					$("#depl_equipos select").append("<option value="+val.id+" selected>"+val.usuario.username+"</option>");	
+					}else{
+						$("#depl_equipos select").append("<option value="+val.id+">"+val.usuario.username+"</option>");	
+					}
+				});	
+			
+			//Listas alineaciones
+			load_lista_alineaciones($( "#depl_jornadas select option:selected" ).text());
+			load_lista_futbolistas();
+		}	
+	}
+}
+
+function crear_listas_alineaciones(){
+	n_jornadas = $('#depl_jornadas select').length
+	$("#alineaciones_contenido").append("<div id='tablas_alineacion'></div>");
+	if (n_jornadas==1){
+		jQuery.each( lista_equipos, function( i, val ) {
+			if (i==0){
+				$("#tablas_alineacion").append("<table id='"+val.id+"' border='2'></table>");
+			}else{
+				$("#tablas_alineacion").append("<table id='"+val.id+"' class='hidden' border='2'></table>");
+			}
+			$("#"+val.id).append("<tr><td>Nombre</td><td>Posicion</td><td>Club</td><td>Precio</td></tr>");
+			for(i=1; i<=11; i++){
+				$("#"+val.id).append("<tr class='item_vacio'><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>");
+			}
+		});	
+	}
+}
+
+function crear_lista_futbolistas(){
+	$("#alineaciones_contenido").append("<div id='alinea_futbolistas'><div id='select_posicion'><input type='radio' name='posicion' value='POR' checked> POR<input type='radio' name='posicion' value='DEF'> DEF<input type='radio' name='posicion' value='MED'>MED<input type='radio' name='posicion' value='DEL'>DEL</div><table id='alinea_tabla_futbolistas' border='2'><tr><td>Código</td><td>Nombre</td><td>Posicion</td><td>Club</td><td>Precio</td></tr></table></div>");
+	jQuery.each( lista_futbolistas, function( i, val ) {
+		$('#alinea_tabla_futbolistas').append("<tr class='"+val.posicion+"'><td>"+val.cod_fut+"</td><td>"+val.nombre+"</td><td>"+val.posicion+"</td><td>"+val.club+"</td><td>"+val.precio+"</td></tr>");
+	});	
+	$("#alinea_tabla_futbolistas .DEF").addClass( "hidden" );
+	$("#alinea_tabla_futbolistas .MED").addClass( "hidden" );
+	$("#alinea_tabla_futbolistas .DEL").addClass( "hidden" );
+	
+	$( "#select_posicion input" ).bind( "click", function() {
+  		$("#alinea_tabla_futbolistas tr").addClass( "hidden" );
+		$("#alinea_tabla_futbolistas ."+$(this).val()).removeClass( "hidden" );
+	});	
+	
+	$("#alinea_tabla_futbolistas tr").bind("click", function(){
+		if ($(this).hasClass("item_selected")){
+			$(this).removeClass("item_selected");
+		}else{
+			if (lista_jornadas.length>1){
+				if ($("#alinea_tabla_futbolistas .item_selected").length ==3){
+					addMessage("Solo tres cambios");
+				}else{
+					$(this).addClass("item_selected");
+				}			
+			}else{
+				$(this).addClass("item_selected");	
+			}
+		}
+		
+	});
+
+	$("#alinea_futbolistas tr").bind("click", function(){
+		
+		if ($(this).hasClass("item_selected")){
+			$(this).removeClass("item_selected");
+		}else{
+			if (lista_jornadas.length>1){
+				if ($("#alinea_tabla_futbolistas .item_selected").length ==3){
+					addMessage("Solo tres cambios");
+				}else{
+					$(this).addClass("item_selected");
+				}			
+			}else{
+				$(this).addClass("item_selected");	
+			}
+		}
+		
+	});
+
+}
+
+
+/*
+function addEquipoHtml(response){
+	$('#equipos table').append('<tr><td class="hidden">'+response.usuario+'</td><td>'+response.username+'</td><td>'+response.dinero+'</td></tr');
+}
+*/
+function addMessage(message){
+	$('#messages').html('<p>'+message+'</p>');
+}
+
+

@@ -1,0 +1,12 @@
+<div class="well">
+<table class="table table-condensed">
+	<tr ng-repeat="jugador in $ctrl.equiposTab.jugadoresJEList">
+        	<td >{{ jugador.nombre }}</td> 			
+                <td>{{jugador.posicion}}</td>
+		<td>{{jugador.club}}</td>
+		<td>{{jugador.precio}}</td>
+                <td>{{jugador.puntos}}</td>
+	</tr>
+</table>
+<h2>Total: {{$ctrl.equiposTab.totalEquipo}}</h2>
+</div>

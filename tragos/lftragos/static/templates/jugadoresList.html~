@@ -1,0 +1,16 @@
+<div class="well">
+<div>
+	<input ng-click="$ctrl.onSelectPosicion($event)" type="radio" name="posicion" value="POR" checked>POR
+	<input ng-click="$ctrl.onSelectPosicion($event)" type="radio" name="posicion" value="DEF">DEF
+	<input ng-click="$ctrl.onSelectPosicion($event)" type="radio" name="posicion" value="MED">MED
+	<input ng-click="$ctrl.onSelectPosicion($event)" type="radio" name="posicion" value="DEL">DEL  
+</div>
+<table class="table table-condensed pre-scrollable">
+	<tr ng-repeat="jugador in $ctrl.filteredList" ng-class="{ danger: $ctrl.isSelected(jugador) }" ng-click="$ctrl.onSelectJugador(jugador)">
+        	<td >{{ jugador.nombre }}</td> 			
+                <td>{{jugador.posicion}}</td>
+		<td>{{jugador.club}}</td>
+		<td>{{jugador.precio}}</td>
+	</tr>
+</table>
+</div>

@@ -1,0 +1,33 @@
+<div class="container-fluid">
+  <div class="row well well-sm no-bottom-margin">
+        <div class="col-sm-1">
+		<jornadasclas-select></jornadasclas-select>
+	</div>
+        <div class="well well-sm col-sm-2">
+              <div class="row">
+                  <h4 class="text-center">Clasificacion Mes</h4>
+              </div>  
+              <div class="row"> 
+                <div class="col-sm-6">
+			<jornadasmesinicial-select></jornadasmesinicial-select>
+		</div>
+		<div class="col-sm-6 text-right">
+			<jornadasmesfinal-select></jornadasmesfinal-select>
+		</div>  
+              </div>  
+        </div>
+        <div class="col-sm-3"><button class="btn btn-info" ng-click="$ctrl.imprimirClasificaciones()">Imprimir Clasificaciones</button></div>
+</div>
+  </div>
+  <div class="row"> 
+        <div class="col-sm-4">
+		<clasjornada-list></clasjornada-list>
+	</div>
+	<div class="col-sm-4">
+		<clastotal-list></clastotal-list>
+	</div>
+	<div class="col-sm-4">
+		<clasmes-list></clasmes-list>
+	</div>
+  </div>
+</div>

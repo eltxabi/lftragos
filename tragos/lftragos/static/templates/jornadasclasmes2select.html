@@ -1,0 +1,13 @@
+<div ng-if="$ctrl.appAdmin.lista_jornadas.length!=0">
+	<div class="form-group">
+	    		<label for="selectJornadasEquipos">Final</label>
+			<select class="form-control" id="selectJornadasEquipos" ng-model="$ctrl.clasificacionesTab.jornadaMesFinal">
+
+<option ng-repeat="jornada in $ctrl.appAdmin.lista_jornadas" ng-selected="$first">{{jornada.numero}}</option>	
+			</select>
+	</div>
+</div>
+
+<div ng-if="$ctrl.appAdmin.lista_jornadas.length==0">
+	<p>No hay jornadas</p>
+</div>

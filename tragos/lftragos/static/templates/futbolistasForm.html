@@ -1,0 +1,31 @@
+<div>
+<button data-toggle="collapse" data-target="#futbolistas_form" class="btn btn-info">Nuevo Jugador</button>
+
+<form id="futbolistas_form" class="collapse">
+	<div class="form-group">
+    		<label for="nombreFutbolista">Nombre</label>
+		<input type="text" class="form-control" name="nombre" id="nombreFutbolista" ng-model="$ctrl.nombre"></input>
+        </div>
+        <div class="form-group">
+    		<label for="posicionFutbolista">Posicion</label>
+        <select id="posicionFutbolista" class="form-control" name="posicion" ng-model="$ctrl.posicion">
+          <option value="POR">Portero</option>
+          <option value="DEF">Defensa</option>
+          <option value="MED">Medio</option>
+          <option value="DEL">Delantero</option>
+        </select>
+
+        </div>
+        <div class="form-group">
+    		<label for="clubFutbolista">Club</label>
+        <select class="form-control" name="club" ng-model="$ctrl.club" id="clubFutbolista">
+          <option ng-repeat="option in $ctrl.appAdmin.lista_clubs" ng-value="{{option.club}}">{{option.club}}</option>
+        </select>
+	     </div>
+	<div class="form-group">
+    		<label for="precioFutbolista">Precio</label>
+		<input type="text" class="form-control" name="precio" ng-model="$ctrl.precio" id="precioFutbolista"></input>
+        </div>
+	<button class="btn btn-primary" ng-click="$ctrl.create()">Crear</button>
+</form>
+</div>

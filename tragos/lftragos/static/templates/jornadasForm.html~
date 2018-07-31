@@ -1,0 +1,13 @@
+<div class="well  well-sm no-bottom-margin">
+<form id="jornadas_form">
+	<div class="form-group">
+    		<label for="numeroJornadas">Numero</label>
+		<input type="number" class="form-control" name="numero" id="numeroJornadas" ng-model="$ctrl.numero"></input>
+        </div>
+	<div class="form-group">
+    		<label for="limiteJornadas"></label>
+		<input type="datetime-local" class="form-control" name="limite" id="limiteJornadas" ng-model="$ctrl.limite"></input>
+        </div>
+	<button class="btn btn-primary" ng-click="$ctrl.create()">Crear Jornada</button>
+</form>
+</div>

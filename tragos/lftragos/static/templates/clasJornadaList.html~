@@ -1,0 +1,11 @@
+<div ng-if="$ctrl.clasificacionesTab.clasJornada.length!=0">
+<table border="2">
+        <tr ng-repeat="jugador in $ctrl.clasificacionesTab.clasJornada">  
+                <td class="badge">{{ jugador.usuario }}</td> 			<td>{{ jugador.puntos }}</td>
+	</tr>
+</table>
+</div>
+
+<div ng-if="$ctrl.clasificacionesTab.clasJornada.length==0">
+	<p>No hay equipos</p>
+</div>

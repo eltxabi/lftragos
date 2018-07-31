@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row">
+    <jornadas-form></jornadas-form>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+	<jornadas-select></jornadas-select>
+    </div> 
+    <div class="col-sm-2">
+	<equipos-select></equipos-select>
+    </div> 
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+	<alineacion-actual></alineacion-actual>
+	<div><button class="btn btn-primary btn-block" ng-click="$ctrl.enviarAlineacion()">Enviar Alineacion</button></div>
+    </div> 
+    <div class="col-sm-6">
+	<jugadores-list></jugadores-list>
+    </div> 
+  </div>
+</div>
+
+
+
+

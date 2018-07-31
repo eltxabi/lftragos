@@ -1,0 +1,15 @@
+<div class="well no-bottom-margin">
+<table class="table table-condensed no-bottom-margin">
+	<tr class="success" ng-repeat="jugador in $ctrl.alineacionesTab.alineacionActual| orderBy : posicionOrder()" ng-click="$ctrl.onRemoveJugador(jugador,$index)">
+		<td>{{ jugador.nombre }}</td>
+		<td>{{jugador.posicion}}</td>
+		<td>{{jugador.club}}</td>
+		<td>{{jugador.precio}}</td>
+        </tr>       
+</table>
+<div id="total-dinero" class="bg-primary">
+	<span class="bg-primary text-left">Total:</span>
+	<span class="bg-primary text-right">{{$ctrl.alineacionesTab.totalAlineacion}}</span>
+</div>
+</div>
+

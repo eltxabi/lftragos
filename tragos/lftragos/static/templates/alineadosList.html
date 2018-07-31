@@ -1,0 +1,12 @@
+<div class="well pre-scrollable" ng-if="$ctrl.puntosTab.alineadosList.length!=0">
+<table class="table table-condensed">
+	<tr ng-repeat="jugador in $ctrl.puntosTab.alineadosList">
+        	<td class="col-sm-2">{{ jugador.nombre }}</td> 			<td class="col-sm-1">{{ jugador.club }}</td>
+		<td class="col-sm-1"><input type="text" size="4" ng-model="jugador.puntos"  value="{{ jugador.puntos?(jugador.puntos) : 0 }}"></td>	
+        </tr>
+</table>
+</div>
+
+<div ng-if="$ctrl.puntosTab.alineadosList.length==0">
+	<p>No hay alineados</p>
+</div>

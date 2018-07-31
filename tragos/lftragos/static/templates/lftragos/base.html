@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+<base href="/">
+		<title>Liga Fantástica Tragos</title>
+		<script src="{% static "js/jquery-3.1.0.min.js" %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static "css/lftragos.css" %}" />
+		<script src="{% static "js/djangoAjax.js" %}"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+		
+		
+		<script src="{% static "js/app_admin.js" %}"></script>
+		 <script type="text/javascript">
+    angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
+  </script>
+		 
+	</head>
+	<body ng-app="app_admin">
+		{% block content %}
+                {% endblock %}
+		
+	<script src="https://npmcdn.com/@angular/router@0.2.0/angular1/angular_1_router.js"></script>
+	</body>
+</html>

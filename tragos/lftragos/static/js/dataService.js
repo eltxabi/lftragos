@@ -1,0 +1,196 @@
+(function(angular) {
+  'use strict';
+angular.module('dataService', [])
+
+.service('equiposService', EquiposService);
+
+function EquiposService($http) {
+  var service = {
+                response: [],
+                getEquipos: getEquipos,
+		            createEquipo: createEquipo,
+                getJornadas: getJornadas,
+                createJornada: createJornada,
+                getJugadores: getJugadores,
+                getClubs: getClubs,
+                getAlineacion: getAlineacion,
+                postAlineacion: postAlineacion,
+                getJugadoresJornada: getJugadoresJornada,
+                postPuntos: postPuntos,
+                getClasificacionJornada: getClasificacionJornada,
+                getClasificacionTotal: getClasificacionTotal,
+                getClasificacionMes: getClasificacionMes,
+                postlogin: postlogin,
+                getPuntosEquipoJornada: getPuntosEquipoJornada,
+                islogged: islogged,
+                getInformeEquipos: getInformeEquipos,
+                postFutbolista: postFutbolista
+                };
+  return service;
+
+  function postlogin(username,password) {
+    return $http.post("/login",{username: username, password: password})
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getEquipos() {
+    return $http.get("equipos")
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function createEquipo(username,password,dinero,puntos_iniciales) {
+    return $http.post("/equipos/",{username: username, password:  password, dinero: dinero, puntos_iniciales: puntos_iniciales})
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getJornadas() {
+    return $http.get("jornadas")
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function createJornada(numero,limite) {
+    return $http.post("/jornadas/",{numero: numero, limite:  limite})
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getJugadores() {
+    return $http.get("futbolistas")
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getClubs() {
+    return $http.get("clubs")
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getAlineacion(jornada,equipo) {
+    return $http.get("/alineaciones/"+jornada+"/"+equipo)
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getJugadoresJornada(jornada) {
+    return $http.get("/alineaciones/"+jornada)
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function postAlineacion(equipo,jornada,futbolistas) {
+    return $http.post("/alineaciones/",{equipo: equipo, jornada: jornada, futbolistas: futbolistas})
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function postPuntos(jornada,futbolistas) {
+    return $http.post("/puntos/",{jornada: jornada, futbolistas: futbolistas})
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getClasificacionTotal(jornada) {
+    return $http.get("/clasificaciones/total/"+jornada)
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getClasificacionJornada(jornada) {
+    return $http.get("/clasificaciones/jornada/"+jornada)
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getClasificacionMes(jornadaI,jornadaF) {
+    return $http.get("/clasificaciones/mes/"+jornadaI+"/"+jornadaF)
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getPuntosEquipoJornada(jornada,equipo) {
+    return $http.get("/puntos/"+jornada+"/"+equipo)
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function islogged() {
+    return $http.get("islogged")
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function getInformeEquipos(jornada) {
+    return $http.get("/puntos/"+jornada)
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+  function postFutbolista(nombre,posicion,club,precio) {
+    return $http.post("/futbolistas/",{nombre: nombre, posicion:  posicion, club: club, precio: precio})
+    .success(function(response) {
+        service.response = response;
+    }).error(function(response) {
+        service.response = response;
+    });
+  }
+
+
+}
+
+})(window.angular);

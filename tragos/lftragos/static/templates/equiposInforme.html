@@ -1,0 +1,14 @@
+<div id="informe">
+<div class="informe_table" ng-repeat="informe in $ctrl.equiposTab.equiposInforme">
+
+	<table class="table table_informe table-condensed table-bordered">
+                <caption>{{ informe.equipo }}</caption> 
+                <tr ng-repeat="jugador in informe.alineacion">
+			<td>{{ jugador.nombre }}</td> 			
+		        <td>{{jugador.precio}}</td>
+		        <td>{{jugador.puntos}}</td>
+		</tr>
+	</table>
+</div>
+
+</div>

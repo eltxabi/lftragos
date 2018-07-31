@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <div class="row well well-sm no-bottom-margin" ng-if="$ctrl.appAdmin.user_info!=null">
+    <div class="col-sm-3">
+      <equipos-form></equipos-form>
+    </div>
+    <div class="col-sm-4">
+    <futbolistas-form></futbolistas-form>
+  </div>
+  </div>
+  <div class="row well well-sm no-bottom-margin">
+    <div class="col-sm-2">
+       <jornadasequipo-select></jornadasequipo-select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <equipos-list></equipos-list>
+    </div>
+    <div class="col-sm-6">
+      <jugadoresje-list></jugadoresje-list>
+    </div>
+  </div>
+</div>

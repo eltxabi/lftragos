@@ -1,0 +1,46 @@
+ <nav class="navbar navbar-inverse navbar-static-top no-bottom-margin">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">LfTragos</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a ng-link="['Equipos']">Equipos</a></li>
+        <li ng-if="$ctrl.user_info!=null"><a ng-link="['Alineaciones']">Alineaciones</a>
+        <li><a ng-link="['Puntos']">Puntos</a></li>
+        <li><a ng-link="['Clasificaciones']">Clasificaciones</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-if="$ctrl.user_info!=null"><a data-toggle="modal" href="#loginModal"><span class="glyphicon glyphicon-user"></span> {{ $ctrl.user_info['username'] }}</a></li>
+        <li ng-if="$ctrl.user_info==null"><a data-toggle="modal" href="#loginModal"><span class="glyphicon glyphicon-user"></span> Login</a></li>
+        <li ng-if="$ctrl.user_info!=null"><a href="logout" target="_self"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<login-form></login-form>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+       <div ng-if="$ctrl.messages" class="alert alert-success">
+       
+    			{{ $ctrl.messages }}
+    	
+      
+       </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<ng-outlet></ng-outlet>

@@ -1,0 +1,60 @@
+@media all{
+body {
+		
+}
+
+#informe{
+	display: block;
+}
+
+.hidden{
+	display: none;
+}
+
+.no-bottom-margin{
+	margin-bottom: 0 !important;
+}
+
+#equipos_form{
+	width:150px;
+}
+
+#jornadas_form{
+	width:150px;
+}
+
+#total-dinero{
+	font-size:1.3em;
+	margin-bottom:20px;
+}
+
+#total-dinero span{
+	width:50%;
+}
+
+#informe{
+    overflow:hidden;
+ }
+
+.informe_table{
+    width: 5cm !important;
+    float:left;
+}
+
+}
+
+@media print 
+   {
+body * { visibility: hidden; }
+#informe * { 
+  visibility: visible; 
+}
+#informe { display: block; position: absolute; top: 40px; left: 30px; }
+@page {size: auto A4 landscape;
+  margin: 3mm;}
+
+
+}
+   
+  	
+

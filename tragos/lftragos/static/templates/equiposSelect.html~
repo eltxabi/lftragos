@@ -1,0 +1,11 @@
+<div ng-if="$ctrl.appAdmin.lista_equipos.length!=0">
+	<div class="form-group">
+    		<label for="selectEquipos">Equipo</label>
+		<select class="form-control" id="selectEquipos" ng-model="$ctrl.alineacionesTab.equipoActual"><option ng-repeat="equipo in $ctrl.appAdmin.lista_equipos" ng-selected="$last">{{ equipo.usuario.username }}</option>	
+		</select>
+	</div>
+</div>
+
+<div ng-if="$ctrl.appAdmin.lista_equipos.length==0">
+	<p>No hay equipos</p>
+</div>
